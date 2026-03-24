@@ -1,26 +1,30 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const categories = [
-  { name: "Raquettes Padel", sub: ["Puissance", "Contrôle", "Polyvalente", "Junior"] },
-  { name: "Chaussures", sub: ["Terre Battue", "Toutes Surfaces"] },
-  { name: "Vêtements", sub: ["T-shirts", "Shorts", "Jupes", "Survêtements"] },
-  { name: "Accessoires", sub: ["Surgrips", "Poignets", "Casquettes"] },
-  { name: "Autres", sub: [] },
+  { name: "Raquettes Padel", cat:"Raquettes", sub: ["Puissance", "Contrôle", "Polyvalente", "Junior"] },
+  { name: "Chaussures", cat:"Chaussures", sub: ["Terre Battue", "Toutes Surfaces"] },
+  { name: "Vêtements", cat:"Vêtements", sub: ["T-shirts", "Shorts", "Jupes", "Survêtements"] },
+  { name: "Accessoires", cat:"Accessoires", sub: ["Surgrips", "Poignets", "Casquettes"] },
+  { name: "Autres", cat:"Autres", sub: [] },
 ];
 
 const CategoryBar = () => {
+  const navigate = useNavigate();
   return (
     <div className="bg-white border-b-2 border-gray-100 hidden md:block w-full">
       <div className="max-w-[1400px] mx-auto">
         <ul className="flex items-stretch justify-center">
           {categories.map((cat, index) => (
             <li key={cat.name} className="relative group flex-1 border-r border-gray-100 last:border-r-0">
-              <button className="w-full flex items-center justify-center gap-2 py-6 px-4 font-black text-[#001e2b] hover:text-[#009688] uppercase text-sm tracking-tighter transition-all duration-300">
+
+              <button className="w-full flex items-center justify-center gap-2 py-6 px-4 font-black text-[#001e2b] hover:text-[#009688] uppercase text-sm tracking-tighter transition-all duration-300"
+              onClick={()=> navigate(`productByCat/${cat.cat}`)}
+              >
                 {cat.name}
-                <span className="text-[10px] text-gray-400 group-hover:rotate-180 transition-transform duration-300">
+                {/* <span className="text-[10px] text-gray-400 group-hover:rotate-180 transition-transform duration-300">
                    ›
-                </span>
+                </span> */}
               </button>
 
               <div className="absolute left-0 top-full w-full pt-0 hidden group-hover:block z-50">
@@ -28,7 +32,7 @@ const CategoryBar = () => {
                   {cat.sub.map((subItem) => (
                     <Link
                       key={subItem}
-                      to={`/category/${cat.name.toLowerCase()}/${subItem.toLowerCase()}`}
+                      to={`/category/${cat.cat.toLowerCase()}/${subItem.toLowerCase()}`}
                       className="block px-8 py-3 text-xs font-bold text-gray-500 hover:bg-gray-50 hover:text-[#009688] uppercase tracking-widest"
                     >
                       {subItem}
@@ -43,7 +47,6 @@ const CategoryBar = () => {
         </ul>
       </div>
       
-      {/* Barre de promotion fine en dessous (Jaune comme l'image) */}
       
     </div>
   );
